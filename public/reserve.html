@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Make a Reservation</title>
+
+  <!-- jQuery minified cdn -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <center>
+      <div class="jumbotron">
+        <h1><span class="glyphicon glyphicon-fire"></span>Hot Restaurant</h1>
+        <hr>
+        <h2>Reserve a Table</h2>
+        <p><a class="btn btn-primary btn-lg" href="/table" role="button"><span class ="glyphicon glyphicon-th-list"></span> View Tables</a>
+        <a href="/" type="button" class="btn btn-default" id="homePage"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></center>
+      </div>
+    </center>
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Table Reservation</strong></h3>
+          </div>
+          <div class="panel-body">
+            <form method="POST" role="form">
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" class="form-control" id="phone">
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email">
+              </div>
+
+              <div class="form-group">
+                <label for="uid">Unique ID</label>
+                <input type="text" class="form-control" id="uid">
+              </div>
+            </form>
+            <br>
+            <div class="text-left">
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="glyphicon glyphicon-fire"></span> Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="/api/table">API Table Link</a> | <a href="/api/waitlist">API Waitlist</a>
+  </div>
+  <script type="text/javascript">
+
+    $("#add-btn").on("click", function(event) {
+      event.preventDefault();
+
+      var newReservation = {
+        name: $("#name").val().trim(),
+        phone: $("#phone").val().trim(),
+        email: $("#email").val().trim(),
+        customerID: $("#uid").val().trim()
+      };
+      console.log(newReservation);
+      var currentURL = window.location.origin;
+
+      $.post(currentURL + '/api/table', newReservation, function(data) {
+        if (data==true) {
+          alert("You are on the list");
+        }
+        if (data==false) {
+          alert("Need to wait, or go to McDonalds, across the street");
+        }
+
+        $("#name").val("");
+        $("#phone").val("");
+        $("#email").val("");
+        $("#uid").val("");
+
+      });
+
+    return false;
+    });
+  </script>
+</body>
+
+</html>
